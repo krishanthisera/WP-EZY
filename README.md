@@ -2,7 +2,7 @@
 # -- Bootstrapping Wordpress --
 Verify whether you have install VirtualBox and Vagrant
 
-Download this github repository and cd into the WP-BOOTSTRAP folder (Use your git username password)
+Download this github repository and cd into the WP-EZY directory
 
 `git clone https://github.com/krishanthisera/WP-EZY.git`
 
