@@ -8,7 +8,7 @@ Download this github repository and cd into the WP-BOOTSTRAP folder (Use your gi
 
 CD into WP-BOOTSTRAP directory
 
-`cd CMS/WP-EZY`
+`cd WP-EZY`
 
 Run Vagrant up
 
