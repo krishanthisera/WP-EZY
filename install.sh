@@ -1,8 +1,10 @@
 #Install dependencies
 sudo apt-get 
+DB_ROOT_PASS=root-pass
+DB_WP_PASS=wp-pass
 
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root-pass'
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root-pass'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password $DB_PASS'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $DB_PASS'
 sudo apt-get update -y
 sudo apt-get install -y wordpress php libapache2-mod-php mysql-server php-mysql apache2 mysql-client ufw
 
@@ -10,9 +12,9 @@ sudo service mysql start
 mkdir -p /etc/apache2/sites-available
 
 #Configure mysql 
-mysql -u "root" -proot-pass -e "CREATE DATABASE wordpress;"
-mysql -u "root" -proot-pass -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost IDENTIFIED BY 'wp-pass';"
-mysql -u "root" -proot-pass -e "FLUSH PRIVILEGES;"
+mysql -u "root" -p'$DB_ROOT_PASS' -e "CREATE DATABASE wordpress;"
+mysql -u "root" -p'$DB_ROOT_PASS' -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost IDENTIFIED BY '$DB_WP_PASS';"
+mysql -u "root" -p'$DB_ROOT_PASS' -e "FLUSH PRIVILEGES;"
 
 
 #Configure Apache2 server
@@ -40,17 +42,13 @@ cat <<EOF | sudo tee /etc/wordpress/config-localhost.php
 <?php
 define('DB_NAME', 'wordpress');
 define('DB_USER', 'wordpress');
-define('DB_PASSWORD', 'wp-pass');
+define('DB_PASSWORD', '$DB_WP_PASS');
 define('DB_HOST', 'localhost');
 define('DB_COLLATE', 'utf8_general_ci');
 define('WP_CONTENT_DIR', '/usr/share/wordpress/wp-content');
 ?>
 EOF
 
-#Data base config
-sudo git clone  https://github.com/CMS-FFC/Miscellaneous.git
-sudo mysql -u root -proot-pass < Miscellaneous/wordpress.db
-sudo cp /etc/wordpress/config-localhost.php /etc/wordpress/config-168.5.50.php
 
 
 sudo service mysql start
