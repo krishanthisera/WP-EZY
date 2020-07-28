@@ -1,10 +1,9 @@
-#Install dependencies
-sudo apt-get 
+#Install dependencies 
 DB_ROOT_PASS=root-pass
 DB_WP_PASS=wp-pass
 
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password ${DB_PASS}'
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password ${DB_PASS}'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password ${DB_ROOT_PASS}'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password ${DB_ROOT_PASS}'
 sudo apt-get update -y
 sudo apt-get install -y wordpress php libapache2-mod-php mysql-server php-mysql apache2 mysql-client ufw
 
